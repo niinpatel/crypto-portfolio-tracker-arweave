@@ -1,12 +1,16 @@
 import React from 'react';
 import 'antd/dist/antd.css';
+import useWallet from './hooks/useWallet';
 
 import { Layout, Typography } from 'antd';
+import KeyUpload from './components/KeyUpload';
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
 
 const App = () => {
+  const [{ wallet, walletAddress }, setWallet] = useWallet();
+
   return (
     <Layout className="layout">
       <Header>
@@ -16,7 +20,11 @@ const App = () => {
       </Header>
       <Content style={{ padding: '25px 50px' }}>
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-          Content
+          {wallet ? (
+            `Hello ${walletAddress}`
+          ) : (
+            <KeyUpload setWallet={setWallet} />
+          )}
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
