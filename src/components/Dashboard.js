@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getAllPortfolioTransactions } from '../api';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import moment from 'moment';
+
+import AddTransaction from './AddTransaction';
 
 const Dashboard = ({ walletAddress }) => {
   const [portfolioTransactions, setPortfolioTransactions] = useState([]);
+  const [addTransactionVisible, setAddTransactionVisible] = useState(false);
 
   useEffect(() => {
     getAllPortfolioTransactions(walletAddress).then(setPortfolioTransactions);
@@ -12,6 +15,14 @@ const Dashboard = ({ walletAddress }) => {
 
   return (
     <div>
+      <Button
+        onClick={() => setAddTransactionVisible(true)}
+        type="primary"
+        size="large"
+      >
+        Add A Transaction
+      </Button>
+
       {portfolioTransactions.length ? (
         <Table
           dataSource={portfolioTransactions}
@@ -42,6 +53,13 @@ const Dashboard = ({ walletAddress }) => {
           </p>
         </div>
       )}
+
+      <AddTransaction
+        visible={addTransactionVisible}
+        closeModal={() => {
+          setAddTransactionVisible(false);
+        }}
+      />
     </div>
   );
 };
