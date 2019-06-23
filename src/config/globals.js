@@ -1,1 +1,1 @@
-export const APP_NAME = 'arweave-url-shortener';
+export const APP_NAME = 'crypto-portfolio-tracker-arweave';

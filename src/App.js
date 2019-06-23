@@ -4,6 +4,7 @@ import useWallet from './hooks/useWallet';
 
 import { Layout, Typography } from 'antd';
 import KeyUpload from './components/KeyUpload';
+import Dashboard from './components/Dashboard';
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -21,7 +22,7 @@ const App = () => {
       <Content style={{ padding: '25px 50px' }}>
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
           {wallet ? (
-            `Hello ${walletAddress}`
+            <Dashboard walletAddress={walletAddress} />
           ) : (
             <KeyUpload setWallet={setWallet} />
           )}
