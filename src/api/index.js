@@ -19,3 +19,8 @@ export const getAllPortfolioTransactions = () =>
       Time: currentUnixTime()
     }
   ]);
+
+export const addTransaction = transaction => {
+  console.log(transaction);
+  return Promise.resolve();
+};
