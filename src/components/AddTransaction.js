@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Modal, Input, Select, InputNumber, message } from 'antd';
 import { addTransaction } from '../api';
 
-const AddTransaction = ({ visible, closeModal }) => {
+const AddTransaction = ({ visible, closeModal, wallet }) => {
   const [coinName, setCoinName] = useState('');
   const [amount, setAmount] = useState(0);
   const [transactionType, setTransactionType] = useState('BUY');
+  const [loading, setLoading] = useState(false);
 
-  const submitForm = async ({ wallet }) => {
+  const submitForm = async () => {
     if (!coinName || !amount || !transactionType) {
       return;
     }
@@ -17,12 +18,15 @@ const AddTransaction = ({ visible, closeModal }) => {
 
     const transaction = { coinName, amount, transactionType };
     try {
+      setLoading(true);
       await addTransaction(transaction, wallet);
       closeModal();
     } catch (e) {
+      console.log(e);
       message.error(`something went wrong, please try again.`);
     } finally {
       // reset form to its initial state
+      setLoading(false);
       setCoinName('');
       setAmount(0);
       setTransactionType('BUY');
@@ -34,6 +38,7 @@ const AddTransaction = ({ visible, closeModal }) => {
       visible={visible}
       onOk={submitForm}
       onCancel={() => closeModal(null)}
+      confirmLoading={loading}
     >
       <Input
         type="text"

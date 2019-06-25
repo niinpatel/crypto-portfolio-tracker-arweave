@@ -31,10 +31,19 @@ export const getAllPortfolioTransactions = async walletAddress => {
     )
   );
 
-  return stringifiedTransactions.map(transaction => JSON.parse(transaction));
+  return stringifiedTransactions
+    .map(transaction => JSON.parse(transaction))
+    .map(({ coinName, amount, transactionType, time }) => ({
+      CoinName: coinName,
+      Amount: amount,
+      TransactionType: transactionType,
+      Time: time
+    }));
 };
 
 export const addTransaction = async (transactionData, wallet) => {
+  Object.assign(transactionData, { time: currentUnixTime() });
+
   const transaction = await arweave.createTransaction(
     { data: JSON.stringify(transactionData) },
     wallet
@@ -43,7 +52,7 @@ export const addTransaction = async (transactionData, wallet) => {
   transaction.addTag('Coin-Name', transactionData.coinName);
   transaction.addTag('Amount', transactionData.amount);
   transaction.addTag('Transaction-Type', transactionData.TransactionType);
-  transaction.addTag('Time', currentUnixTime());
+  transaction.addTag('Time', transactionData.time);
   transaction.addTag('App-Name', getAppName());
 
   await arweave.transactions.sign(transaction, wallet);
