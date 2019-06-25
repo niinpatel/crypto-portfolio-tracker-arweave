@@ -20,17 +20,19 @@ const AddTransaction = ({ visible, closeModal, wallet }) => {
     try {
       setLoading(true);
       await addTransaction(transaction, wallet);
+      resetState();
       closeModal();
     } catch (e) {
       console.log(e);
       message.error(`something went wrong, please try again.`);
-    } finally {
-      // reset form to its initial state
-      setLoading(false);
-      setCoinName('');
-      setAmount(0);
-      setTransactionType('BUY');
     }
+  };
+
+  const resetState = () => {
+    setLoading(false);
+    setCoinName('');
+    setAmount(0);
+    setTransactionType('BUY');
   };
 
   return (
@@ -46,6 +48,7 @@ const AddTransaction = ({ visible, closeModal, wallet }) => {
         onChange={event => setCoinName(event.target.value)}
         name="coin-name"
         required
+        value={coinName}
       />
       <InputNumber
         placeholder="Amount"
@@ -61,7 +64,7 @@ const AddTransaction = ({ visible, closeModal, wallet }) => {
         name="transaction-type"
         onChange={value => setTransactionType(value)}
         required
-        defaultValue="BUY"
+        defaultValue={transactionType}
       >
         <Select.Option value="BUY">BUY</Select.Option>
         <Select.Option value="SELL">SELL</Select.Option>
