@@ -22,7 +22,7 @@ const App = () => {
       <Content style={{ padding: '25px 50px' }}>
         <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
           {wallet ? (
-            <Dashboard walletAddress={walletAddress} />
+            <Dashboard walletAddress={walletAddress} wallet={wallet} />
           ) : (
             <KeyUpload setWallet={setWallet} />
           )}

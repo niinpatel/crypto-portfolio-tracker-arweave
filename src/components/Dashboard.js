@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import AddTransaction from './AddTransaction';
 
-const Dashboard = ({ walletAddress }) => {
+const Dashboard = ({ walletAddress, wallet }) => {
   const [portfolioTransactions, setPortfolioTransactions] = useState([]);
   const [addTransactionVisible, setAddTransactionVisible] = useState(false);
 
@@ -59,6 +59,7 @@ const Dashboard = ({ walletAddress }) => {
         closeModal={() => {
           setAddTransactionVisible(false);
         }}
+        wallet={wallet}
       />
     </div>
   );

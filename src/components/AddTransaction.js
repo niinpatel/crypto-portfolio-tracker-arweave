@@ -7,7 +7,7 @@ const AddTransaction = ({ visible, closeModal }) => {
   const [amount, setAmount] = useState(0);
   const [transactionType, setTransactionType] = useState('BUY');
 
-  const submitForm = async () => {
+  const submitForm = async ({ wallet }) => {
     if (!coinName || !amount || !transactionType) {
       return;
     }
@@ -17,7 +17,7 @@ const AddTransaction = ({ visible, closeModal }) => {
 
     const transaction = { coinName, amount, transactionType };
     try {
-      await addTransaction(transaction);
+      await addTransaction(transaction, wallet);
       closeModal();
     } catch (e) {
       message.error(`something went wrong, please try again.`);
