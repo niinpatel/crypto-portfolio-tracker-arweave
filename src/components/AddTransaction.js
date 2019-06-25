@@ -8,6 +8,13 @@ const AddTransaction = ({ visible, closeModal }) => {
   const [transactionType, setTransactionType] = useState('BUY');
 
   const submitForm = async () => {
+    if (!coinName || !amount || !transactionType) {
+      return;
+    }
+    if (isNaN(amount)) {
+      return;
+    }
+
     const transaction = { coinName, amount, transactionType };
     try {
       await addTransaction(transaction);
@@ -37,9 +44,12 @@ const AddTransaction = ({ visible, closeModal }) => {
       />
       <InputNumber
         placeholder="Amount"
-        onChange={setAmount}
+        onChange={value => {
+          if (typeof value === 'number') setAmount(value);
+        }}
         name="rate"
         required
+        value={amount}
       />
       <Select
         style={{ width: 70 }}
